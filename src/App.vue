@@ -1,21 +1,23 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <hello></hello>
+    <h1>{{ greeting }}</h1>
+    <mail></mail>
   </div>
 </template>
 
 <script>
-import Hello from './components/Hello'
+import Mail from './components/Mail'
 
 export default {
-  name: 'app',
-  components: {
-    Hello
+  name: 'App',
+  components: { Mail },
+  data () {
+    return {
+      greeting: 'Welcome to Vamailteeth'
+    }
   }
 }
 </script>
-
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

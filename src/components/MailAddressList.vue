@@ -2,7 +2,7 @@
   <div class="grouping">
     <input type="text" class="line-component email-to-add" placeholder="Email address" v-model.trim="email"></input>
     <email-add-btn class="line-component" v-bind:title="title" v-on:email-add-click="addEmailAddress"></email-add-btn>
-    <email-removable-label class="line-component" v-for="address in addressList" v-bind:value="address"></email-removable-label>
+    <email-removable-label class="line-component" v-for="address in addressList" v-bind:value="address.value" v-bind:key="address.key"></email-removable-label>
   </div>
 </template>
 

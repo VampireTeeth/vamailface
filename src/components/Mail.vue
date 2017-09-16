@@ -29,7 +29,7 @@ export default {
     return {
       subject: null,
       content: null,
-      mailList: ['aaa', 'bbb', 'ccc']
+      mailList: [{value: 'aaa', key: 0}, {value: 'bbb', key: 1}, {value: 'ccc', key: 2}]
     }
   }
 }

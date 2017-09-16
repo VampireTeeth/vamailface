@@ -1,5 +1,5 @@
 <template>
-  <button class="btn btn-info badge badge-info title" v-on:click="fireEvent">
+  <button class="btn btn-success badge badge-success title" v-on:click="fireEvent">
     <span class="fa fa-plus"></span>
     {{title}}
   </button>

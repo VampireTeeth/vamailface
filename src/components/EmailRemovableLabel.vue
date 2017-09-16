@@ -1,8 +1,8 @@
 <template>
-  <span class="badge badge-success">
+  <span class="badge badge-primary">
     <span class="fa fa-envelope"></span>
-    {{value}}
-    <button class="btn btn-success badge email-rm-btn">
+    {{address.value}}
+    <button class="btn btn-danger badge email-rm-btn" v-on:click="fireEvent">
       <span class="fa fa-remove"></span>
     </button>
   </span>
@@ -12,9 +12,14 @@
 export default {
   name: 'email-removable-label',
   props: {
-    value: {
-      type: String,
+    address: {
+      type: Object,
       default: null
+    }
+  },
+  methods: {
+    fireEvent: function () {
+      this.$emit('email-rm-click', this.address.key)
     }
   }
 }

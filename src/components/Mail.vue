@@ -1,11 +1,11 @@
 <template>
   <div class="mail">
-    <mail-address-list title="TO" v-bind:addressList="mailList" v-on:add-email="addTos"></mail-address-list>
-    <mail-address-list title="CC" v-bind:addressList="mailList" v-on:add-email="addCcs"></mail-address-list>
-    <mail-address-list title="BCC" v-bind:addressList="mailList" v-on:add-email="addBccs"></mail-address-list>
+    <mail-address-list title="TO" v-bind:addressList="tos" v-on:add-email="addTos" v-on:rm-email="rmTos"></mail-address-list>
+    <mail-address-list title="CC" v-bind:addressList="ccs" v-on:add-email="addCcs"></mail-address-list>
+    <mail-address-list title="BCC" v-bind:addressList="bccs" v-on:add-email="addBccs"></mail-address-list>
     <mail-subject v-model="subject"></mail-subject>
     <mail-text v-model="content"></mail-text>
-    <div class="grouping"><b-button variant="success" v-on:click="sendMail">Send Mail</b-button></div>
+    <mail-send-btn v-bind:isActive="isSendingEmail" v-on:send-mail-click="sendMail"></Mail-send-btn>
   </div>
 </template>
 
@@ -14,31 +14,59 @@
 import MailSubject from './MailSubject'
 import MailText from './MailText'
 import MailAddressList from './MailAddressList'
+import MailSendBtn from './MailSendBtn'
+
+var currentKey = 0
+
+function filterByKeyOnEmailList (addressList, key) {
+  return addressList.filter(function (addr) {
+    return addr.key !== key
+  })
+}
+
+function addToAddressList (addressList, email) {
+  var nxtKey = ++currentKey
+  addressList.push({value: email, key: nxtKey})
+}
 
 export default {
   name: 'mail',
   components: {
-    MailSubject, MailText, MailAddressList
+    MailSubject, MailText, MailAddressList, MailSendBtn
   },
   methods: {
     sendMail: function () {
-      alert('Send mail clicked! subject:' + this.subject + ', content: ' + this.content)
+      this.isSendingEmail = true
     },
-    addTos: function (val) {
-      alert('addTos: ' + val)
+    addTos: function (email) {
+      addToAddressList(this.tos, email)
     },
-    addCcs: function (val) {
-      alert('addCcs: ' + val)
+    rmTos: function (key) {
+      this.tos = filterByKeyOnEmailList(this.tos, key)
     },
-    addBccs: function (val) {
-      alert('addBccs: ' + val)
+    addCcs: function (email) {
+      addToAddressList(this.ccs, email)
+    },
+    rmCcs: function (key) {
+      this.ccs = filterByKeyOnEmailList(this.ccs, key)
+    },
+    addBccs: function (email) {
+      addToAddressList(this.bccs, email)
+    },
+    rmBccs: function (key) {
+      this.bccs = filterByKeyOnEmailList(this.bccs, key)
     }
   },
   data () {
     return {
+      isSendingEmail: false,
+      isSentEmail: false,
+      sendMailMessage: 'SUCCESS',
       subject: null,
       content: null,
-      mailList: [{value: 'aaa', key: 0}, {value: 'bbb', key: 1}, {value: 'ccc', key: 2}]
+      tos: [],
+      ccs: [],
+      bccs: []
     }
   }
 }

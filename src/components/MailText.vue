@@ -4,7 +4,7 @@
       v-model="text"
       placeholder="Say something here"
       v-on:blur="updateParent"
-      :rows="3" :max-rows="10">
+      :rows="10" :max-rows="20">
     </b-form-input>
   </div>
 </template>

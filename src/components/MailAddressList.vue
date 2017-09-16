@@ -19,11 +19,19 @@ export default {
   },
   props: {
     title: null,
-    addressList: []
+    addressList: {
+      type: Array,
+      default: []
+    }
+  },
+  data () {
+    return {
+      email: null
+    }
   },
   methods: {
     addEmailAddress: function () {
-      alert('Email add clicked: ' + this.email)
+      this.$emit('add-email', this.email)
     }
   }
 }

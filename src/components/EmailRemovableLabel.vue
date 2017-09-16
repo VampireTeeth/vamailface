@@ -12,8 +12,10 @@
 export default {
   name: 'email-removable-label',
   props: {
-    value: null,
-    key: null
+    value: {
+      type: String,
+      default: null
+    }
   }
 }
 </script>

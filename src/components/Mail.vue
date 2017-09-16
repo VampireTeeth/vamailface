@@ -1,8 +1,8 @@
 <template>
   <div class="mail">
-    <mail-address-list title="To" v-bind:addressList="mailList"></mail-address-list>
-    <mail-address-list title="CC" v-bind:addressList="mailList"></mail-address-list>
-    <mail-address-list title="BCC" v-bind:addressList="mailList"></mail-address-list>
+    <mail-address-list title="TO" v-bind:addressList="mailList" v-on:add-email="addTos"></mail-address-list>
+    <mail-address-list title="CC" v-bind:addressList="mailList" v-on:add-email="addCcs"></mail-address-list>
+    <mail-address-list title="BCC" v-bind:addressList="mailList" v-on:add-email="addBccs"></mail-address-list>
     <mail-subject v-model="subject"></mail-subject>
     <mail-text v-model="content"></mail-text>
     <div class="grouping"><b-button variant="success" v-on:click="sendMail">Send Mail</b-button></div>
@@ -23,6 +23,15 @@ export default {
   methods: {
     sendMail: function () {
       alert('Send mail clicked! subject:' + this.subject + ', content: ' + this.content)
+    },
+    addTos: function (val) {
+      alert('addTos: ' + val)
+    },
+    addCcs: function (val) {
+      alert('addCcs: ' + val)
+    },
+    addBccs: function (val) {
+      alert('addBccs: ' + val)
     }
   },
   data () {

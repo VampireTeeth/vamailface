@@ -27,4 +27,15 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+.grouping:before,
+.grouping:after {
+  content: "";
+  display: table;
+}
+
+.grouping:after {
+  clear: both;
+}
+
 </style>

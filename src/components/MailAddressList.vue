@@ -52,6 +52,9 @@ export default {
     },
     onEmailRmClick: function (key) {
       this.$emit('rm-email', key)
+    },
+    setErrorMsg: function (msg) {
+      this.errorMsg = msg
     }
   }
 }

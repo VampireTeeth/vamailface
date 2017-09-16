@@ -1,20 +1,25 @@
 <template>
   <div class="mail">
-    <mail-address-list title="TO" v-bind:addressList="tos" v-on:add-email="addTos" v-on:rm-email="rmTos"></mail-address-list>
-    <mail-address-list title="CC" v-bind:addressList="ccs" v-on:add-email="addCcs"></mail-address-list>
-    <mail-address-list title="BCC" v-bind:addressList="bccs" v-on:add-email="addBccs"></mail-address-list>
-    <mail-subject v-model="subject"></mail-subject>
-    <mail-text v-model="content"></mail-text>
-    <mail-send-btn v-bind:isActive="isSendingEmail" v-on:send-mail-click="sendMail"></Mail-send-btn>
+    <mail-address-list ref="toAddressList" title="TO" v-bind:addressList="tos" v-on:add-email="addTos" v-on:rm-email="rmTos"></mail-address-list>
+    <mail-address-list ref="ccAddressList" title="CC" v-bind:addressList="ccs" v-on:add-email="addCcs"></mail-address-list>
+    <mail-address-list ref="bccAddressList" title="BCC" v-bind:addressList="bccs" v-on:add-email="addBccs"></mail-address-list>
+    <mail-subject ref="mailSubject" v-model="subject"></mail-subject>
+    <mail-text ref="mailText" v-model="content"></mail-text>
+    <mail-send-btn v-bind:isActive="isSendingEmail()" v-on:send-mail-click="sendMail"></Mail-send-btn>
+    <mail-info-modal v-if="isShowingInfoModal()" v-on:close="closeInfoModal()">
+      <span slot="body">{{sendMailStatus.message}}</span>
+    </mail-info-modal>
   </div>
 </template>
 
 
 <script>
+import axios from 'axios'
 import MailSubject from './MailSubject'
 import MailText from './MailText'
 import MailAddressList from './MailAddressList'
 import MailSendBtn from './MailSendBtn'
+import MailInfoModal from './MailInfoModal'
 
 var currentKey = 0
 
@@ -29,14 +34,68 @@ function addToAddressList (addressList, email) {
   addressList.push({value: email, key: nxtKey})
 }
 
+function validateAddressList (addressList, comp) {
+  if (!addressList || addressList.length === 0) {
+    comp.setErrorMsg('Required')
+    return false
+  }
+  return true
+}
+
+function validateTextInput (txt, comp) {
+  if (txt && (txt.trim() !== '')) return true
+  comp.setErrorMsg('Required')
+  return false
+}
+
+function validateAll (v) {
+  var r1 = validateAddressList(v.tos, v.$refs.toAddressList)
+  var r2 = validateAddressList(v.ccs, v.$refs.ccAddressList)
+  var r3 = validateAddressList(v.bccs, v.$refs.bccAddressList)
+  var r4 = validateTextInput(v.subject, v.$refs.mailSubject)
+  var r5 = validateTextInput(v.content, v.$refs.mailText)
+  return r1 && r2 && r3 && r4 && r5
+}
+
 export default {
   name: 'mail',
   components: {
-    MailSubject, MailText, MailAddressList, MailSendBtn
+    MailSubject, MailText, MailAddressList, MailSendBtn, MailInfoModal
   },
   methods: {
     sendMail: function () {
-      this.isSendingEmail = true
+      if (!validateAll(this)) return
+      const st = this.sendMailStatus
+      st.isSending = true
+      axios.post('https://vamailteeth.herokuapp.com/mail',
+        {
+          tos: this.tos,
+          ccs: this.ccs,
+          bccs: this.bccs,
+          subject: this.subject,
+          text: this.content
+        }).then(function (resp) {
+          st.hasError = resp.failed
+          st.message = resp.message
+          st.finished = true
+        },
+        function (err) {
+          st.hasError = true
+          st.message = 'Send Email Error: ' + err
+          st.finished = true
+        })
+    },
+    isSendingEmail: function () {
+      return this.sendMailStatus.isSending
+    },
+    isShowingInfoModal: function () {
+      const st = this.sendMailStatus
+      return st.isSending && st.finished
+    },
+    closeInfoModal: function () {
+      const st = this.sendMailStatus
+      st.isSending = false
+      st.finished = false
     },
     addTos: function (email) {
       addToAddressList(this.tos, email)
@@ -59,9 +118,12 @@ export default {
   },
   data () {
     return {
-      isSendingEmail: false,
-      isSentEmail: false,
-      sendMailMessage: 'SUCCESS',
+      sendMailStatus: {
+        finished: false,
+        isSending: false,
+        hasError: false,
+        message: 'SUCCESS'
+      },
       subject: null,
       content: null,
       tos: [],

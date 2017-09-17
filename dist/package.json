@@ -1,0 +1,9 @@
+{
+  "name": "vamailface",
+  "version": "1.0.0",
+  "description": "A mini UI project to sending email",
+  "author": "VampireTeeth <vampireteeth001@gmail.com>",
+  "scripts": {
+   "postinstall": "npm install express"
+ }
+}

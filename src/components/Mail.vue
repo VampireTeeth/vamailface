@@ -7,7 +7,8 @@
     <mail-text ref="mailText" v-model="content"></mail-text>
     <mail-send-btn v-bind:isActive="isSendingEmail()" v-on:send-mail-click="sendMail"></Mail-send-btn>
     <mail-info-modal v-if="isShowingInfoModal()" v-on:close="closeInfoModal()">
-      <span slot="body">{{sendMailStatus.message}}</span>
+      <i slot="header" class="fa fa-2x" v-bind:class="[sendMailStatus.hasError ? 'fa-times' : 'fa-check']"></i>
+      <span slot="body" v-bind:class="[sendMailStatus.hasError ? 'msg-error' : 'msg-success']">{{sendMailStatus.message}}</span>
     </mail-info-modal>
   </div>
 </template>
@@ -82,13 +83,13 @@ export default {
           text: this.content
         }).then(function (resp) {
           console.log(resp)
-          st.hasError = resp.failed
-          st.message = resp.message
+          st.hasError = resp.data.failed
+          st.message = resp.data.message
           st.finished = true
         },
         function (err) {
           st.hasError = true
-          st.message = 'Send Email Error: ' + err
+          st.message = 'Send Email Error: ' + err.message
           st.finished = true
         })
     },
@@ -152,4 +153,29 @@ div.mail>div {
 div button.btn {
   float: left;
 }
+
+.fa-times,
+.fa-check {
+  margin: 0 auto;
+  padding: 0.3em 0.4em 0.3em 0.4em;
+  border-radius: 50%;
+  color: white;
+}
+
+.fa-times {
+  background-color: #d9534f;
+}
+
+.fa-check {
+  background-color: #5cb85c;
+}
+.msg-error {
+  color: #d9534f;
+}
+
+.msg-success {
+  color: #5cb85c;
+}
+
+
 </style>

@@ -82,7 +82,6 @@ export default {
           subject: this.subject,
           text: this.content
         }).then(function (resp) {
-          console.log(resp)
           st.hasError = resp.data.failed
           st.message = resp.data.message
           st.finished = true

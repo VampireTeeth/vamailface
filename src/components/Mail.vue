@@ -57,6 +57,12 @@ function validateAll (v) {
   return r1 && r2 && r3 && r4 && r5
 }
 
+function mkEmailList (addressList) {
+  return addressList.forEach(function (addr) {
+    return addr.value
+  })
+}
+
 export default {
   name: 'mail',
   components: {
@@ -69,9 +75,9 @@ export default {
       st.isSending = true
       axios.post('https://vamailteeth.herokuapp.com/mail',
         {
-          tos: this.tos,
-          ccs: this.ccs,
-          bccs: this.bccs,
+          tos: mkEmailList(this.tos),
+          ccs: mkEmailList(this.ccs),
+          bccs: mkEmailList(this.bccs),
           subject: this.subject,
           text: this.content
         }).then(function (resp) {

@@ -42,7 +42,7 @@ body {
   text-shadow: 1px 1px 2px #082b34;
   position: absolute;
   left: 10em;
-  top: 0.2em;
+  top: 0.1em;
 }
 .grouping:before,
 .grouping:after {

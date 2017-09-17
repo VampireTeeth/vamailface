@@ -1,8 +1,8 @@
 <template>
   <div class="mail">
     <mail-address-list ref="toAddressList" title="TO" v-bind:addressList="tos" v-on:add-email="addTos" v-on:rm-email="rmTos"></mail-address-list>
-    <mail-address-list ref="ccAddressList" title="CC" v-bind:addressList="ccs" v-on:add-email="addCcs"></mail-address-list>
-    <mail-address-list ref="bccAddressList" title="BCC" v-bind:addressList="bccs" v-on:add-email="addBccs"></mail-address-list>
+    <mail-address-list ref="ccAddressList" title="CC" v-bind:addressList="ccs" v-on:add-email="addCcs" v-on:rm-email="rmCcs"></mail-address-list>
+    <mail-address-list ref="bccAddressList" title="BCC" v-bind:addressList="bccs" v-on:add-email="addBccs" v-on:rm-email="rmBccs"></mail-address-list>
     <mail-subject ref="mailSubject" v-model="subject"></mail-subject>
     <mail-text ref="mailText" v-model="content"></mail-text>
     <mail-send-btn v-bind:isActive="isSendingEmail()" v-on:send-mail-click="sendMail"></Mail-send-btn>

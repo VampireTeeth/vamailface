@@ -58,7 +58,7 @@ function validateAll (v) {
 }
 
 function mkEmailList (addressList) {
-  return addressList.forEach(function (addr) {
+  return addressList.map(function (addr) {
     return addr.value
   })
 }

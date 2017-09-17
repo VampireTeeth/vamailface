@@ -75,9 +75,9 @@ export default {
   padding: 0em;
   width: 15em;
 }
-.error-msg {
-  display:inline-block;
-  padding: 0px;
+span.error-msg {
+  display: inline-block;
+  padding: 0em;
 }
 
 

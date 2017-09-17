@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>{{ greeting }}</h1>
+    <h1 class="main-header">{{ greeting }}</h1>
     <mail></mail>
   </div>
 </template>
@@ -30,7 +30,7 @@ body {
   margin-top: 2em;
 }
 
-#app h1 {
+#app h1.main-header {
   text-align: center;
   color: #CEF0D4;
   font-family: 'Rouge Script', cursive;

@@ -144,7 +144,9 @@ div.mail {
   margin: 2em auto;
 }
 div.mail>div {
+  margin-top: 0.5em;
   margin-bottom: 1em;
+  padding: 0;
 }
 
 div button.btn {

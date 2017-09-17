@@ -51,11 +51,9 @@ function validateTextInput (txt, comp) {
 
 function validateAll (v) {
   var r1 = validateAddressList(v.tos, v.$refs.toAddressList)
-  var r2 = validateAddressList(v.ccs, v.$refs.ccAddressList)
-  var r3 = validateAddressList(v.bccs, v.$refs.bccAddressList)
-  var r4 = validateTextInput(v.subject, v.$refs.mailSubject)
-  var r5 = validateTextInput(v.content, v.$refs.mailText)
-  return r1 && r2 && r3 && r4 && r5
+  var r2 = validateTextInput(v.subject, v.$refs.mailSubject)
+  var r3 = validateTextInput(v.content, v.$refs.mailText)
+  return r1 && r2 && r3
 }
 
 function mkEmailList (addressList) {
